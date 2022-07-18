@@ -1,19 +1,19 @@
 const connection = require("../infraestructure/connection");
 
-class Vehicle {
-  add(carModel, res) {
-    const sql = "INSERT INTO vehicle SET ?"; //query
-    connection.query(sql, carModel, (error, results) => {
+class VehicleData {
+  add(carData, res) {
+    const sql = "INSERT INTO vehicleData SET ?"; //query
+    connection.query(sql, carData, (error, results) => {
       if (error) {
         res.status(400).json(error);
       } else {
-        res.status(201).json(carModel);
+        res.status(201).json(carData);
       }
     });
   }
 
   list(res) {
-    const sql = "SELECT * FROM vehicle"; //query
+    const sql = "SELECT * FROM vehicleData"; //query
 
     connection.query(sql, (error, results) => {
       if (error) {
@@ -25,7 +25,7 @@ class Vehicle {
   }
 
   searchByID(id, res) {
-    const sql = `SELECT * FROM vehicle WHERE id=${id}`; //query
+    const sql = `SELECT * FROM vehicleData WHERE id=${id}`; //query
 
     connection.query(sql, (error, results) => {
       if (error) {
@@ -37,7 +37,7 @@ class Vehicle {
   }
 
   update(id, values, res) {
-    const sql = "UPDATE vehicle SET ? WHERE id=?";
+    const sql = "UPDATE vehicleData SET ? WHERE id=?";
     connection.query(sql, [values, id], (error, results) => {
       if (error) {
         res.status(400).json(error);
@@ -48,7 +48,7 @@ class Vehicle {
   }
 
   deleteByID(id, res) {
-    const sql = "DELETE FROM vehicle WHERE id=?"; //query
+    const sql = "DELETE FROM vehicleData WHERE id=?"; //query
     connection.query(sql, id, (error, results) => {
       if (error) {
         res.status(400).json(error);
@@ -59,4 +59,4 @@ class Vehicle {
   }
 }
 
-module.exports = new Vehicle();
+module.exports = new VehicleData();
