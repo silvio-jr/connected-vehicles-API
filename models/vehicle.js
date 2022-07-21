@@ -1,18 +1,24 @@
 const connection = require("../infraestructure/connection");
 
-/*
-* Interaction with the db;
-* Resposible for fetch, update, create and remove all kinds of data
-*/
 
 class Vehicle {
   add(carModel, res) {
-    const sql = "INSERT INTO vehicle SET ?"; //query
-    connection.query(sql, carModel, (error, results) => {
+    const sql1 = "SELECT * FROM vehicle WHERE model = ?";
+    connection.query(sql1, [user.model], (error, results) => {
       if (error) {
-        res.status(400).json(error);
+        res.status(500).json({ error: error });
+      }
+      if (results.length > 0) {
+        res.status(409).json({ message: "car model already exists" });
       } else {
-        res.status(201).json(carModel);
+        const sql2 = "INSERT INTO vehicle SET ?"; 
+        connection.query(sql2, carModel, (error, results) => {
+          if (error) {
+            res.status(400).json(error);
+          } else {
+            res.status(201).json(carModel);
+          }
+        });
       }
     });
   }

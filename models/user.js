@@ -4,8 +4,8 @@ const jwt = require("jsonwebtoken");
 
 class User {
   register(user, res) {
-    const sql1 = "SELECT * FROM user WHERE user_email = ?";
-    connection.query(sql1, [user.email], (error, results) => {
+    const sql1 = "SELECT * FROM user WHERE user_name = ?";
+    connection.query(sql1, [user.name], (error, results) => {
       if (error) {
         res.status(500).json({ error: error });
       }

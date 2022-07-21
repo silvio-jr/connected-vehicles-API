@@ -1,20 +1,42 @@
 class Tables {
   init(connection) {
     this.connection = connection;
+    this.createUserTable();
     this.createVehicleTable();
     this.createVehicleDataTable();
-    this.createUserTable();
+    this.createImageTable();
+  }
+
+  createUserTable() {
+    const sql = `
+      CREATE TABLE IF NOT EXISTS user (
+        user_id INTEGER PRIMARY KEY AUTO_INCREMENT, 
+        user_name VARCHAR(30) NOT NULL UNIQUE, 
+        user_email VARCHAR(255) NOT NULL, 
+        user_password VARCHAR(255) NOT NULL,
+        user_fullName VARCHAR(40) NOT NULL, 
+        user_joinDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )`;
+
+    this.connection.query(sql, (error) => {
+      if (error) {
+        console.log(error);
+      }
+    });
   }
 
   createVehicleTable() {
     const sql = `
-        CREATE TABLE IF NOT EXISTS vehicle (
-            id INTEGER PRIMARY KEY AUTO_INCREMENT,
-            model VARCHAR(25) NOT NULL, 
-            totalSales INTEGER,
-            connected INTEGER,
-            softwareUpdates INTEGER
-        )`;
+      CREATE TABLE IF NOT EXISTS vehicle (
+        user_name VARCHAR(30) NOT NULL,
+        id INTEGER PRIMARY KEY AUTO_INCREMENT,
+        model VARCHAR(30) NOT NULL UNIQUE, 
+        totalSales INTEGER,
+        connected INTEGER,
+        softwareUpdates INTEGER,
+        FOREIGN KEY (user_name) REFERENCES user(user_name)
+      );
+    `;
 
     this.connection.query(sql, (error) => {
       if (error) {
@@ -25,17 +47,20 @@ class Tables {
 
   createVehicleDataTable() {
     const sql = `
-        CREATE TABLE IF NOT EXISTS vehicleData (
-            id INTEGER PRIMARY KEY AUTO_INCREMENT,
-            vin VARCHAR(20) NOT NULL UNIQUE, 
-            odometer VARCHAR(30) DEFAULT ('') NOT NULL, 
-            tirePressure VARCHAR(30) DEFAULT ('') NOT NULL,
-            VehicleStatus VARCHAR(30) DEFAULT ('') NOT NULL,
-            batteryStatus VARCHAR(30) DEFAULT ('') NOT NULL,
-            fuelLevel VARCHAR(30) DEFAULT ('') NOT NULL,
-            latitude VARCHAR(30) DEFAULT ('') NOT NULL,
-            longitude VARCHAR(30) DEFAULT ('') NOT NULL
-        )`;
+      CREATE TABLE IF NOT EXISTS vehicleData (
+        user_name VARCHAR(30) NOT NULL,
+        id INTEGER PRIMARY KEY AUTO_INCREMENT,
+        vin VARCHAR(30) NOT NULL UNIQUE, 
+        odometer VARCHAR(30) DEFAULT ('') NOT NULL, 
+        tirePressure VARCHAR(30) DEFAULT ('') NOT NULL,
+        VehicleStatus VARCHAR(30) DEFAULT ('') NOT NULL,
+        batteryStatus VARCHAR(30) DEFAULT ('') NOT NULL,
+        fuelLevel VARCHAR(30) DEFAULT ('') NOT NULL,
+        latitude VARCHAR(30) DEFAULT ('') NOT NULL,
+        longitude VARCHAR(30) DEFAULT ('') NOT NULL,
+        FOREIGN KEY (user_name) REFERENCES user(user_name)
+      );
+    `;
 
     this.connection.query(sql, (error) => {
       if (error) {
@@ -44,16 +69,16 @@ class Tables {
     });
   }
 
-  createUserTable() {
+  createImageTable() {
     const sql = `
-      CREATE TABLE IF NOT EXISTS user (
-        user_id INTEGER PRIMARY KEY AUTO_INCREMENT, 
-        user_name VARCHAR(30) NOT NULL UNIQUE, 
-        user_email VARCHAR(255) NOT NULL UNIQUE, 
-        user_password VARCHAR(255) NOT NULL,
-        user_fullName VARCHAR(40) NOT NULL, 
-        user_joinDate TIMESTAMP DEFAULT current_timestamp
-      )`;
+      CREATE TABLE IF NOT EXISTS image (
+        user_name VARCHAR(30) NOT NULL,
+        id INTEGER PRIMARY KEY AUTO_INCREMENT,
+        model VARCHAR(30) NOT NULL UNIQUE, 
+        path VARCHAR(500) NOT NULL UNIQUE,
+        FOREIGN KEY (user_name) REFERENCES vehicle(user_name)
+      );
+    `;
 
     this.connection.query(sql, (error) => {
       if (error) {
