@@ -1,5 +1,10 @@
 const connection = require("../infraestructure/connection");
 
+/*
+* Interaction with the db;
+* Resposible for fetch, update, create and remove all kinds of data
+*/
+
 class Vehicle {
   add(carModel, res) {
     const sql = "INSERT INTO vehicle SET ?"; //query
@@ -24,7 +29,7 @@ class Vehicle {
     });
   }
 
-  searchByID(id, res) {
+  getByID(id, res) {
     const sql = `SELECT * FROM vehicle WHERE id=${id}`; //query
 
     connection.query(sql, (error, results) => {

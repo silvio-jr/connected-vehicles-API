@@ -3,6 +3,7 @@ class Tables {
     this.connection = connection;
     this.createVehicleTable();
     this.createVehicleDataTable();
+    this.createUserTable();
   }
 
   createVehicleTable() {
@@ -18,8 +19,6 @@ class Tables {
     this.connection.query(sql, (error) => {
       if (error) {
         console.log(error);
-      } else {
-        console.log("vehicle table successfully loaded");
       }
     });
   }
@@ -41,8 +40,24 @@ class Tables {
     this.connection.query(sql, (error) => {
       if (error) {
         console.log(error);
-      } else {
-        console.log("vehicleData table successfully loaded");
+      }
+    });
+  }
+
+  createUserTable() {
+    const sql = `
+      CREATE TABLE IF NOT EXISTS user (
+        user_id INTEGER PRIMARY KEY AUTO_INCREMENT, 
+        user_name VARCHAR(30) NOT NULL UNIQUE, 
+        user_email VARCHAR(255) NOT NULL UNIQUE, 
+        user_password VARCHAR(255) NOT NULL,
+        user_fullName VARCHAR(40) NOT NULL, 
+        user_joinDate TIMESTAMP DEFAULT current_timestamp
+      )`;
+
+    this.connection.query(sql, (error) => {
+      if (error) {
+        console.log(error);
       }
     });
   }

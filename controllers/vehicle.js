@@ -7,7 +7,7 @@ module.exports = (app) => {
 
   app.get("/vehicle/:id", (req, res) => {
     const id = parseInt(req.params.id);
-    Vehicle.searchByID(id, res);
+    Vehicle.getByID(id, res);
   });
 
   app.post("/vehicle", (req, res) => {

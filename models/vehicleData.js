@@ -24,7 +24,7 @@ class VehicleData {
     });
   }
 
-  searchByID(id, res) {
+  getByID(id, res) {
     const sql = `SELECT * FROM vehicleData WHERE id=${id}`; //query
 
     connection.query(sql, (error, results) => {
