@@ -5,4 +5,9 @@ module.exports = (app) => {
     const user = req.body;
     User.register(user, res);
   });
+
+  app.post("/login", (req, res, next) => {
+    const user = req.body;
+    User.login(user, res);
+  })
 };
