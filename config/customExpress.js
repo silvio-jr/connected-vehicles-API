@@ -3,6 +3,7 @@ const consign = require("consign");
 
 module.exports = () => {
   const app = express();
+  app.use("/img", express.static("img"));
   app.use(express.urlencoded({ extended: true }));
   app.use(express.json());
   app.use((req, res, next) => {

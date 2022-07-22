@@ -30,7 +30,7 @@ class Tables {
       CREATE TABLE IF NOT EXISTS vehicle (
         user_name VARCHAR(30) NOT NULL,
         id INTEGER PRIMARY KEY AUTO_INCREMENT,
-        model VARCHAR(30) NOT NULL UNIQUE, 
+        model VARCHAR(30) NOT NULL, 
         totalSales INTEGER,
         connected INTEGER,
         softwareUpdates INTEGER,
@@ -50,7 +50,7 @@ class Tables {
       CREATE TABLE IF NOT EXISTS vehicleData (
         user_name VARCHAR(30) NOT NULL,
         id INTEGER PRIMARY KEY AUTO_INCREMENT,
-        vin VARCHAR(30) NOT NULL UNIQUE, 
+        vin VARCHAR(30) NOT NULL, 
         odometer VARCHAR(30) DEFAULT ('') NOT NULL, 
         tirePressure VARCHAR(30) DEFAULT ('') NOT NULL,
         VehicleStatus VARCHAR(30) DEFAULT ('') NOT NULL,
@@ -74,7 +74,7 @@ class Tables {
       CREATE TABLE IF NOT EXISTS image (
         user_name VARCHAR(30) NOT NULL,
         id INTEGER PRIMARY KEY AUTO_INCREMENT,
-        model VARCHAR(30) NOT NULL UNIQUE, 
+        model VARCHAR(30) NOT NULL, 
         path VARCHAR(500) NOT NULL UNIQUE,
         FOREIGN KEY (user_name) REFERENCES vehicle(user_name)
       );
