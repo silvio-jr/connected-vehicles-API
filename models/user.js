@@ -16,7 +16,10 @@ class User {
           if (errorBcrypt) {
             res.status(500).json({ error: errorBcrypt });
           } else {
-            const sql2 = `INSERT INTO user (user_name, user_email, user_password, user_fullName) VALUES (?,?,?,?)`;
+            const sql2 = `
+            INSERT INTO user (user_name, user_email, user_password, user_fullName) 
+            VALUES (?,?,?,?)
+            `;
             connection.query(
               sql2,
               [user.name, user.email, hash, user.fullName],

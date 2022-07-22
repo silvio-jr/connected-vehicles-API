@@ -1,29 +1,24 @@
-const Vehicle = require("../models/vehicleData");
+const VehicleData = require("../models/vehicleData");
 const authToken = require("../infraestructure/auth");
 
 module.exports = (app) => {
   app.get("/vehicleData", authToken.optional, (req, res) => {
-    Vehicle.list(res);
+    VehicleData.list(req, res);
   });
 
   app.get("/vehicleData/:id", authToken.optional, (req, res) => {
-    const id = parseInt(req.params.id);
-    Vehicle.getByID(id, res);
+    VehicleData.getByID(req, res);
   });
 
   app.post("/vehicleData", authToken.mandatory, (req, res) => {
-    const carData = req.body;
-    Vehicle.add(carData, res);
+    VehicleData.add(req, res);
   });
 
   app.patch("/vehicleData/:id", authToken.mandatory, (req, res) => {
-    const id = parseInt(req.params.id);
-    const values = req.body;
-    Vehicle.update(id, values, res);
+    VehicleData.update(req, res);
   });
 
   app.delete("/vehicleData/:id", authToken.mandatory, (req, res) => {
-    const id = parseInt(req.params.id);
-    Vehicle.deleteByID(id, res);
+    VehicleData.deleteByID(req, res);
   });
 };
