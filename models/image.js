@@ -34,28 +34,22 @@ class Image {
     const sql = "SELECT * FROM image";
     const imgPaths = [];
     connection.query(sql, (error, results) => {
-      if (error) {
-        res.status(500).json(error);
-      } else {
+      if (error) res.status(500).json(error);
+      else {
         results.forEach((result) => {
           imgPaths.push(result.path);
         });
-
         fs.readdir("./img", (err, files) => {
-          if (err) res.status(500).json(error);
-          else {
-            if (files.length > imgPaths) {
-              files.forEach((file) => {
-                if (!imgPaths.indexOf("img\\" + file) + 1) {
-                  console.log("img\\" + file);
-                }
-              });
+          files.forEach((file) => {
+            if (!(imgPaths.indexOf("img\\" + file) + 1)) {
+              fs.unlink("img\\" + file, (err) => {});
             }
-          }
+          });
         });
       }
     });
   }
 }
+
 
 module.exports = new Image();

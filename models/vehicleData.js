@@ -2,7 +2,7 @@ const connection = require("../infraestructure/connection");
 
 class VehicleData {
   add(carData, res) {
-    const sql = "INSERT INTO vehicleData SET ?"; //query
+    const sql = "INSERT INTO vehicleData SET ?"; 
     connection.query(sql, carData, (error, results) => {
       if (error) {
         res.status(400).json(error);
@@ -13,7 +13,7 @@ class VehicleData {
   }
 
   list(res) {
-    const sql = "SELECT * FROM vehicleData"; //query
+    const sql = "SELECT * FROM vehicleData"; 
 
     connection.query(sql, (error, results) => {
       if (error) {
@@ -25,7 +25,7 @@ class VehicleData {
   }
 
   getByID(id, res) {
-    const sql = `SELECT * FROM vehicleData WHERE id=${id}`; //query
+    const sql = `SELECT * FROM vehicleData WHERE id=${id}`; 
 
     connection.query(sql, (error, results) => {
       if (error) {
@@ -48,7 +48,7 @@ class VehicleData {
   }
 
   deleteByID(id, res) {
-    const sql = "DELETE FROM vehicleData WHERE id=?"; //query
+    const sql = "DELETE FROM vehicleData WHERE id=?"; 
     connection.query(sql, id, (error, results) => {
       if (error) {
         res.status(400).json(error);

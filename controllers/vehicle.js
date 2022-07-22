@@ -4,6 +4,7 @@ const upload = require("../models/upload");
 const Image = require("../models/image");
 
 module.exports = (app) => {
+
   app.get("/vehicle", authToken.optional, (req, res) => {
     Vehicle.list(req, res);
   });
@@ -16,8 +17,7 @@ module.exports = (app) => {
     Vehicle.add(req, res);
   });
 
-  app.post(
-    "/vehicle/upload",
+  app.post( "/vehicle/upload",
     upload.single("vehicle_image"),
     authToken.mandatory,
     (req, res) => {
@@ -26,13 +26,10 @@ module.exports = (app) => {
   );
 
   app.patch("/vehicle/:id", authToken.mandatory, (req, res) => {
-    const id = parseInt(req.params.id);
-    const values = req.body;
-    Vehicle.update(id, values, res);
+    Vehicle.update(req, res);
   });
 
   app.delete("/vehicle/:id", authToken.mandatory, (req, res) => {
-    const id = parseInt(req.params.id);
-    Vehicle.deleteByID(id, res);
+    Vehicle.deleteById(req, res);
   });
 };

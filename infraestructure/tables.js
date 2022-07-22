@@ -76,7 +76,7 @@ class Tables {
         id INTEGER PRIMARY KEY AUTO_INCREMENT,
         model VARCHAR(30) NOT NULL, 
         path VARCHAR(500) NOT NULL UNIQUE,
-        FOREIGN KEY (user_name) REFERENCES vehicle(user_name)
+        FOREIGN KEY (user_name) REFERENCES user(user_name)
       );
     `;
 
