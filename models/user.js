@@ -7,14 +7,14 @@ class User {
     const sql1 = "SELECT * FROM user WHERE user_name = ?";
     connection.query(sql1, [user.name], (error, results) => {
       if (error) {
-        res.status(500).json({ error: error });
+        return res.status(500).json({ error: error });
       }
       if (results.length > 0) {
-        res.status(409).json({ message: "user already exists" });
+        return res.status(409).json({ message: "user already exists" });
       } else {
         bcrypt.hash(user.password, 10, (errorBcrypt, hash) => {
           if (errorBcrypt) {
-            res.status(500).json({ error: errorBcrypt });
+            return res.status(500).json({ error: errorBcrypt });
           } else {
             const sql2 = `
             INSERT INTO user (user_name, user_email, user_password, user_fullName) 
@@ -25,9 +25,9 @@ class User {
               [user.name, user.email, hash, user.fullName],
               (error, results) => {
                 if (error) {
-                  res.status(400).json(error);
+                  return res.status(400).json(error);
                 } else {
-                  res.status(201).json({
+                  return res.status(201).json({
                     message: "user registered",
                     user: user.name,
                     email: user.email,
@@ -43,11 +43,13 @@ class User {
 
   login(user, res) {
     const sql = "SELECT * FROM user WHERE user_name = ?";
-    connection.query(sql, [user.name], (error, results, fields) => {
+    // console.log(user) 
+    connection.query(sql, [user.username], (error, results, fields) => {
       if (error) {
-        res.status(500).json({ error: error });
+        return res.status(500).json({ error: error });
+        
       } else if (results.length < 1) {
-        res.status(401).json({ message: "authentication failed" });
+        return res.status(401).json({ message: "authentication failed" });
       }
 
       bcrypt.compare(
@@ -55,7 +57,7 @@ class User {
         results[0].user_password,
         (error, result) => {
           if (error) {
-            res.status(401).json({ message: "authentication failed" });
+            return res.status(401).json({ message: "authentication failed" });
           } else if (result) {
             let token = jwt.sign(
               {
@@ -76,7 +78,7 @@ class User {
               token: token,
             });
           } else {
-            res.status(401).json({ message: "authentication failed" });
+            return res.status(401).json({ message: "authentication failed" });
           }
         }
       );

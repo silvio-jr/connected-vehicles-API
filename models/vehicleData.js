@@ -10,10 +10,10 @@ class VehicleData {
       [req.body.vin, req.user.username],
       (error, results) => {
         if (error) {
-          res.status(500).json({ error: error });
+          return res.status(500).json({ error: error });
         }
         if (results.length > 0) {
-          res
+          return res
             .status(409)
             .json({ message: "vehicle have been already registered" });
         } else {
@@ -37,9 +37,9 @@ class VehicleData {
             ],
             (error, results) => {
               if (error) {
-                res.status(400).json(error);
+                return res.status(400).json(error);
               } else {
-                res.status(201).json([req.body, results]);
+                return res.status(201).json([req.body, results]);
               }
             }
           );
@@ -55,9 +55,9 @@ class VehicleData {
 
     connection.query(sql, req.user.username, (error, results) => {
       if (error) {
-        res.status(400).json(error);
+        return res.status(400).json(error);
       } else {
-        res.status(200).json(results);
+        return res.status(200).json(results);
       }
     });
   }
@@ -70,9 +70,9 @@ class VehicleData {
 
     connection.query(sql, req.user.username, (error, results) => {
       if (error) {
-        res.status(400).json(error);
+        return res.status(400).json(error);
       } else {
-        res.status(200).json(results[0]);
+        return res.status(200).json(results[0]);
       }
     });
   }
@@ -100,9 +100,9 @@ class VehicleData {
       ],
       (error, results) => {
         if (error) {
-          res.status(400).json(error);
+          return res.status(400).json(error);
         } else {
-          res.status(200).json([{ ...values, id }, results]);
+          return res.status(200).json([{ ...values, id }, results]);
         }
       }
     );
@@ -115,9 +115,9 @@ class VehicleData {
     `;
     connection.query(sql, [req.user.username, id], (error, results) => {
       if (error) {
-        res.status(400).json(error);
+        return res.status(400).json(error);
       } else {
-        res.status(200).json([{ id: id }, results]);
+        return res.status(200).json([{ id: id }, results]);
       }
     });
   }

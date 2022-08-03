@@ -9,20 +9,20 @@ class Image {
       [req.body.model, req.user.username],
       (error, results) => {
         if (error) {
-          res.status(500).json({ error: error });
+          return res.status(500).json({ error: error });
         }
         if (results.length > 0) {
           this.checkImgFolder();
-          res.status(409).json({ message: "car model already exists" });
+          return res.status(409).json({ message: "car model already exists" });
         } else {
           const sql2 =
             "INSERT INTO image (user_name, model, path) VALUES (?,?,?);";
           const arr = [req.user.username, req.body.model, req.file.path];
           connection.query(sql2, arr, (error, results) => {
             if (error) {
-              res.status(500).json(error);
+              return res.status(500).json(error);
             } else {
-              res.status(201).json(arr);
+              return res.status(201).json(arr);
             }
           });
         }
@@ -34,7 +34,7 @@ class Image {
     const sql = "SELECT * FROM image";
     const imgPaths = [];
     connection.query(sql, (error, results) => {
-      if (error) res.status(500).json(error);
+      if (error) return res.status(500).json(error);
       else {
         results.forEach((result) => {
           imgPaths.push(result.path);

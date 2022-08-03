@@ -9,7 +9,7 @@ exports.mandatory = (req, res, next) => {
     next();
   } catch (error) {
     console.log("no token sent by the application");
-    res.status(401).json({
+    return res.status(401).json({
       message: "authentication failed",
     });
   }

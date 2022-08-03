@@ -11,10 +11,10 @@ class Vehicle {
       [req.body.model, req.user.username],
       (error, results) => {
         if (error) {
-          res.status(500).json({ error: error });
+          return res.status(500).json({ error: error });
         }
         if (results.length > 0) {
-          res.status(409).json({ message: "car model already exists" });
+          return res.status(409).json({ message: "car model already exists" });
         } else {
           const arr = [
             req.user.username,
@@ -29,9 +29,9 @@ class Vehicle {
             `;
           connection.query(sql2, arr, (error, results) => {
             if (error) {
-              res.status(400).json(error);
+              return res.status(400).json(error);
             } else {
-              res.status(201).json([arr, results]);
+              return res.status(201).json([arr, results]);
             }
           });
         }
@@ -44,15 +44,15 @@ class Vehicle {
       SELECT A.user_name, A.id, A.model, A.totalSales, 
       A.connected, A.softwareUpdates, B.path
       FROM vehicle A INNER JOIN image B
-      ON A.user_name = B.user_name
+      ON A.model = B.model
       WHERE A.user_name = (?)
       GROUP BY A.model;
     `;
     connection.query(sql, [req.user.username], (error, results) => {
       if (error) {
-        res.status(400).json(error);
+        return res.status(400).json(error);
       } else {
-        res.status(200).json(results);
+        return res.status(200).json(results);
       }
     });
   }
@@ -63,15 +63,15 @@ class Vehicle {
       SELECT A.user_name, A.id, A.model, A.totalSales, 
       A.connected, A.softwareUpdates, B.path
       FROM vehicle A INNER JOIN image B
-      ON A.user_name = B.user_name
+      ON A.model = B.model
       WHERE A.user_name = (?) AND A.id=${id}
       GROUP BY A.model;
     `;
     connection.query(sql, [req.user.username], (error, results) => {
       if (error) {
-        res.status(400).json(error);
+        return res.status(400).json(error);
       } else {
-        res.status(200).json(results[0]);
+        return res.status(200).json(results[0]);
       }
     });
   }
@@ -94,9 +94,9 @@ class Vehicle {
       ],
       (error, results) => {
         if (error) {
-          res.status(400).json(error);
+          return res.status(400).json(error);
         } else {
-          res.status(200).json([{ ...values, id }, results]);
+          return res.status(200).json([{ ...values, id }, results]);
         }
       }
     );
@@ -113,10 +113,11 @@ class Vehicle {
       `;
     connection.query(sql, [req.user.username, id], (error, results) => {
       if (error) {
-        res.status(400).json(error);
+        return res.status(400).json(error);
       } else {
-        res.status(200).json([{ id: id }, results]);
         Image.checkImgFolder();
+        return res.status(200).json([{ id: id }, results]);
+        
       }
     });
   }
